@@ -35,6 +35,10 @@ def _get_data_files():
         ("/etc/ubuntu-advantage", ["uaclient.conf", "help_data.yaml"]),
         ("/etc/update-motd.d", glob.glob("update-motd.d/*")),
         ("/usr/lib/ubuntu-advantage", glob.glob("lib/[!_]*")),
+        (
+            "/usr/lib/ubuntu-advantage/prototypes",
+            glob.glob("prototypes/*", recursive=True),
+        ),
         ("/usr/share/keyrings", glob.glob("keyrings/*")),
         (
             "/etc/update-manager/release-upgrades.d/",
