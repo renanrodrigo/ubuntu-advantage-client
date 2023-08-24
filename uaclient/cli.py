@@ -4,6 +4,7 @@ import argparse
 import json
 import logging
 import pathlib
+import os
 import re
 import sys
 import tarfile
@@ -840,6 +841,18 @@ def reboot_required_parser(parser):
           reboot, but you can assess if the reboot can be performed in the
           nearest maintenance window.
         """
+    )
+    return parser
+
+
+def prototype_parser(parser):
+    parser.usage = USAGE_TMPL.format(name=NAME, command="totype")
+    parser.prog = "totype"
+    parser.description = "Print UX prototypes"
+    parser.add_argument(
+        "file",
+        action="store",
+        help="prototype to show",
     )
     return parser
 
@@ -1708,6 +1721,12 @@ def get_parser(cfg: config.UAConfig):
     parser_status.set_defaults(action=action_status)
     status_parser(parser_status)
 
+    parser_prototype = subparsers.add_parser(
+        "totype", help="Print UX prototypes"
+    )
+    parser_prototype.set_defaults(action=action_prototype)
+    prototype_parser(parser_prototype)
+
     parser_version = subparsers.add_parser(
         "version", help="show version of {}".format(NAME)
     )
@@ -1870,6 +1889,16 @@ def action_help(args, *, cfg, **kwargs):
             print("{}:\n{}\n".format(key.title(), value))
 
     return 0
+
+
+def action_prototype(args, *, cfg, **kwargs):
+    try:
+        with open("/usr/lib/ubuntu-advantage/prototypes/" + args.file) as f:
+            print("".join(f.readlines()))
+    except FileNotFoundError:
+        print("Choose one of:")
+        for f in os.listdir("/usr/lib/ubuntu-advantage/prototypes/"):
+            print("- " + f)
 
 
 def _warn_about_new_version(cmd_args=None) -> None:
