@@ -7,10 +7,10 @@ Feature: Pro Client help text
       """
       usage: pro [-h] [--debug] [--version] <command> ...
 
-    Flags:
-      -h, --help       show this help message and exit
-      --debug          show all debug log messages to console
-      --version        show version of pro
+      Flags:
+        -h, --help       show this help message and exit
+        --debug          show all debug log messages to console
+        --version        show version of pro
 
       Available Commands:
         <command>
